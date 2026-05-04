@@ -64,9 +64,9 @@ export function AlertProvider({ children }: { children: ReactNode }) {
   useEffect(() => {
     fetchAlerts();
 
-    const subscription = supabase
-      .channel("alerts_realtime")
-      .on(
+    const channel = supabase.channel(`alerts_realtime_${Math.random().toString(36).substring(7)}`);
+    
+    channel.on(
         "postgres_changes",
         { event: "*", schema: "public", table: "alerts" },
         (payload) => {
@@ -134,7 +134,7 @@ export function AlertProvider({ children }: { children: ReactNode }) {
       .subscribe();
 
     return () => {
-      supabase.removeChannel(subscription);
+      supabase.removeChannel(channel);
     };
   }, [fetchAlerts]);
 

@@ -20,21 +20,13 @@ import { timeAgo } from "../utils/timeAgo";
 import { exportToCsv } from "../utils/exportCsv";
 import type { Severity } from "../types/database";
 
-const areaData = [
-  { name: '00:00', alerts: 45 },
-  { name: '04:00', alerts: 30 },
-  { name: '08:00', alerts: 85 },
-  { name: '12:00', alerts: 50 },
-  { name: '16:00', alerts: 110 },
-  { name: '20:00', alerts: 70 },
-  { name: '24:00', alerts: 90 },
-];
+
 
 export function Dashboard() {
   const { incidents, isLoading: isIncidentsLoading, error: incidentsError } = useIncidents();
   const { alerts, isLoading: isAlertsLoading } = useAlertContext();
   const { resources, isLoading: isResourcesLoading } = useResources();
-  const { weather, news, isLoading: isExternalLoading } = useExternalIntelligence();
+  const { weather, news, isLoading: isExternalLoading, refresh } = useExternalIntelligence();
   const { analysis, isProcessing } = useAIInsights(incidents, alerts, resources, weather, news);
 
   const [searchQuery, setSearchQuery] = useState("");
@@ -47,38 +39,76 @@ export function Dashboard() {
   const isLoading = isIncidentsLoading || isAlertsLoading || isResourcesLoading;
   const hasError = incidentsError; // Simplified error check
 
-  // Computed Card Data
-  const activeIncidents = incidents.filter(i => i.status === 'active').length;
-  const highRiskZones = incidents.filter(i => i.severity === 'high' || i.severity === 'critical').length;
-  const totalAlerts = alerts.length;
-  const availableResources = resources.filter(r => r.availability_status === 'available').length;
+  // Filtered Activity (Unified Incidents & Alerts)
+  const filteredIncidents = incidents.filter((incident) => {
+    const titleMatch = incident.title?.toLowerCase().includes(searchQuery.toLowerCase());
+    const locMatch = incident.location?.toLowerCase().includes(searchQuery.toLowerCase());
+    const matchesSearch = titleMatch || locMatch;
+    const matchesFilter = activeFilter === "all" || incident.severity === activeFilter;
+    return matchesSearch && matchesFilter;
+  });
+
+  // Computed Card Data based on filtered incidents
+  const activeIncidents = filteredIncidents.filter(i => i.status === 'active').length;
+  const highRiskZones = filteredIncidents.filter(i => i.severity === 'high' || i.severity === 'critical').length;
+  
+  const filteredAlerts = alerts.filter((alert) => {
+    const titleMatch = alert.message?.toLowerCase().includes(searchQuery.toLowerCase());
+    const typeMatch = alert.type?.toLowerCase().includes(searchQuery.toLowerCase());
+    const matchesSearch = titleMatch || typeMatch;
+    const matchesFilter = activeFilter === "all" || alert.severity === activeFilter;
+    return matchesSearch && matchesFilter;
+  });
+  const totalAlerts = filteredAlerts.length;
+
+  const filteredResources = resources.filter((resource) => {
+    const titleMatch = resource.resource_name?.toLowerCase().includes(searchQuery.toLowerCase());
+    const typeMatch = resource.resource_type?.toLowerCase().includes(searchQuery.toLowerCase());
+    const locMatch = resource.location?.toLowerCase().includes(searchQuery.toLowerCase());
+    return titleMatch || typeMatch || locMatch;
+  });
+  const availableResources = filteredResources.filter(r => r.availability_status === 'available').length;
 
   // Filtered Activity (Unified Incidents & Alerts)
-  const unifiedActivity = [...incidents.map(i => ({
+  const unifiedActivity = [...filteredIncidents.map(i => ({
     id: i.id,
     type: 'Incident',
     title: i.title,
     location: i.location,
     severity: i.severity,
     time: i.created_at
-  })), ...alerts.map(a => ({
+  })), ...filteredAlerts.map(a => ({
     id: a.id,
     type: a.type || 'Alert',
     title: a.message,
     location: '',
     severity: a.severity,
     time: a.timestamp
-  }))].filter((item) => {
-    const titleMatch = item.title?.toLowerCase().includes(searchQuery.toLowerCase());
-    const locMatch = item.location?.toLowerCase().includes(searchQuery.toLowerCase());
-    const typeMatch = item.type?.toLowerCase().includes(searchQuery.toLowerCase());
-    const matchesSearch = titleMatch || locMatch || typeMatch;
-    const matchesFilter = activeFilter === "all" || item.severity === activeFilter;
-    return matchesSearch && matchesFilter;
-  }).sort((a, b) => new Date(b.time).getTime() - new Date(a.time).getTime());
+  }))].sort((a, b) => new Date(b.time).getTime() - new Date(a.time).getTime());
+
+  // Dynamic Area Chart Data (Bucket unifiedActivity by 4-hour windows)
+  const currentHour = new Date().getHours();
+  const areaData = Array.from({ length: 7 }).map((_, i) => {
+    const hoursAgo = (6 - i) * 4;
+    const bucketTime = new Date();
+    bucketTime.setHours(currentHour - hoursAgo);
+    
+    const start = bucketTime.getTime() - 4 * 60 * 60 * 1000;
+    const end = bucketTime.getTime();
+    
+    const count = unifiedActivity.filter(item => {
+      const t = new Date(item.time).getTime();
+      return t >= start && t <= end;
+    }).length;
+    
+    return {
+      name: `${bucketTime.getHours()}:00`,
+      alerts: count
+    };
+  });
 
   // Dynamic Pie Chart Data
-  const getSeverityCount = (sev: Severity) => incidents.filter(i => i.severity === sev).length;
+  const getSeverityCount = (sev: Severity) => filteredIncidents.filter(i => i.severity === sev).length;
   const pieData = [
     { name: 'Low', value: getSeverityCount('low'), color: '#34d399' },
     { name: 'Medium', value: getSeverityCount('medium'), color: '#60a5fa' },
@@ -116,7 +146,7 @@ export function Dashboard() {
       </div>
 
       {/* Live Intelligence (Weather & News) */}
-      <LiveIntelligenceWidget weather={weather} news={news} isLoading={isExternalLoading} />
+      <LiveIntelligenceWidget weather={weather} news={news} isLoading={isExternalLoading} onRefresh={refresh} />
 
       {/* Search and Filters */}
       <div className="flex flex-col sm:flex-row gap-4 justify-between items-start sm:items-center bg-slate-900/50 p-4 rounded-xl border border-slate-800 backdrop-blur-sm shadow-sm transition-all hover:border-slate-700">

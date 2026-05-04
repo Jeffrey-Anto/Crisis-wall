@@ -60,8 +60,8 @@ export function LiveMap() {
     });
   }, [incidents, searchQuery, activeSeverity, activeStatus]);
 
-  // Center map around global view or specific location (default to US center)
-  const defaultCenter: [number, number] = [39.8283, -98.5795];
+  // Center map around global view or specific location (default to Global center)
+  const defaultCenter: [number, number] = [20.0, 0.0];
   const center = mappedIncidents.length > 0 && mappedIncidents[0].latitude && mappedIncidents[0].longitude
     ? [mappedIncidents[0].latitude, mappedIncidents[0].longitude] as [number, number]
     : defaultCenter;
@@ -127,10 +127,17 @@ export function LiveMap() {
              </div>
           </div>
         )}
+
+        {!isLoading && mappedIncidents.length === 0 && (
+          <div className="absolute inset-0 bg-slate-900/80 backdrop-blur-sm z-[400] flex flex-col items-center justify-center">
+             <AlertTriangle className="h-10 w-10 text-slate-500 mb-3" />
+             <p className="text-slate-400 font-medium">No matching incidents found</p>
+          </div>
+        )}
         
         <MapContainer 
           center={center} 
-          zoom={4} 
+          zoom={mappedIncidents.length > 0 ? 4 : 2} 
           className="h-full w-full bg-slate-950"
           zoomControl={false}
         >

@@ -50,9 +50,9 @@ export function useAlerts() {
   useEffect(() => {
     fetchAlerts();
 
-    const subscription = supabase
-      .channel('alerts_channel')
-      .on('postgres_changes', { event: '*', schema: 'public', table: 'alerts' }, (payload) => {
+    const channel = supabase.channel(`alerts_channel_${Math.random().toString(36).substring(7)}`);
+    
+    channel.on('postgres_changes', { event: '*', schema: 'public', table: 'alerts' }, (payload) => {
         if (payload.eventType === 'INSERT') {
           const newAlert = payload.new as Alert;
           setAlerts((prev) => [newAlert, ...prev].slice(0, 20));
@@ -109,7 +109,7 @@ export function useAlerts() {
       .subscribe();
 
     return () => {
-      supabase.removeChannel(subscription);
+      supabase.removeChannel(channel);
     };
   }, [fetchAlerts]);
 

@@ -16,6 +16,10 @@ const ResourceManagement = lazy(() => import('./pages/ResourceManagement').then(
 const AIInsights = lazy(() => import('./pages/AIInsights').then(module => ({ default: module.AIInsights })));
 const About = lazy(() => import('./pages/About').then(module => ({ default: module.About })));
 const Placeholder = lazy(() => import('./pages/Placeholder').then(module => ({ default: module.Placeholder })));
+const AlertCenter = lazy(() => import('./pages/AlertCenter').then(module => ({ default: module.AlertCenter })));
+const Analytics = lazy(() => import('./pages/Analytics').then(module => ({ default: module.Analytics })));
+const NewsIntelligence = lazy(() => import('./pages/NewsIntelligence').then(module => ({ default: module.NewsIntelligence })));
+const Settings = lazy(() => import('./pages/Settings').then(module => ({ default: module.Settings })));
 const Login = lazy(() => import('./pages/Login').then(module => ({ default: module.Login })));
 const Signup = lazy(() => import('./pages/Signup').then(module => ({ default: module.Signup })));
 
@@ -40,10 +44,10 @@ function AppContent() {
                   <Route element={<DashboardLayout />}>
                     <Route path="/" element={<Dashboard />} />
                     <Route path="/map" element={<LiveMap />} />
-                    <Route path="/alerts" element={<Placeholder title="Alert Center" description="Manage and dispatch critical alerts." />} />
-                    <Route path="/analytics" element={<Placeholder title="Analytics" description="Deep dive into crisis metrics and historical data." />} />
+                    <Route path="/alerts" element={<AlertCenter />} />
+                    <Route path="/analytics" element={<Analytics />} />
                     <Route path="/ai" element={<AIInsights />} />
-                    <Route path="/news" element={<Placeholder title="News Intelligence" description="Live feeds from global news and social media." />} />
+                    <Route path="/news" element={<NewsIntelligence />} />
                     <Route path="/resources" element={<ResourceManagement />} />
                     <Route path="/about" element={<About />} />
 
@@ -52,7 +56,7 @@ function AppContent() {
                       <Route path="/admin" element={<Placeholder title="Admin Panel" description="System configuration and user management." />} />
                     </Route>
 
-                    <Route path="/settings" element={<Placeholder title="Settings" description="Personalize your command center experience." />} />
+                    <Route path="/settings" element={<Settings />} />
                   </Route>
                 </Route>
 

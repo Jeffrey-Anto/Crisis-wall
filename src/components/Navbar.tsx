@@ -1,18 +1,16 @@
 import { useState, useRef, useEffect } from "react";
-import { Search, Bell, User, Menu, Activity, LogOut, CheckCheck } from "lucide-react";
+import { Bell, User, Menu, Activity, LogOut, CheckCheck } from "lucide-react";
 import { AnimatePresence, motion } from "framer-motion";
 import { useAuth } from "../contexts/AuthContext";
 import { useAlertContext } from "../contexts/AlertContext";
 import { Badge } from "./Badge";
 import { timeAgo } from "../utils/timeAgo";
-import { useNavigate, Link } from "react-router-dom";
+import { Link } from "react-router-dom";
+import { GlobalSearch } from "./GlobalSearch";
 
 export function Navbar({ onMenuClick }: { onMenuClick?: () => void }) {
   const [showNotifications, setShowNotifications] = useState(false);
   const [showProfile, setShowProfile] = useState(false);
-  // BUG-06: controlled state for the global search input
-  const [searchQuery, setSearchQuery] = useState("");
-  const navigate = useNavigate();
   
   const notifRef = useRef<HTMLDivElement>(null);
   const profileRef = useRef<HTMLDivElement>(null);
@@ -51,25 +49,7 @@ export function Navbar({ onMenuClick }: { onMenuClick?: () => void }) {
             <Menu className="h-6 w-6" />
           </button>
         )}
-        <div className="relative w-full max-w-md hidden sm:block">
-          <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3">
-            <Search className="h-4 w-4 text-slate-400" aria-hidden="true" />
-          </div>
-          <input
-            type="text"
-            value={searchQuery}
-            onChange={(e) => setSearchQuery(e.target.value)}
-            onKeyDown={(e) => {
-              // BUG-06: navigate to dashboard on Enter so search is functional
-              if (e.key === 'Enter' && searchQuery.trim()) {
-                navigate('/');
-                setSearchQuery('');
-              }
-            }}
-            className="block w-full rounded-md border-0 bg-slate-800/50 py-1.5 pl-10 pr-3 text-slate-200 ring-1 ring-inset ring-slate-700 placeholder:text-slate-400 focus:ring-2 focus:ring-inset focus:ring-cyan-500 sm:text-sm sm:leading-6"
-            placeholder="Search alerts, resources, news..."
-          />
-        </div>
+        <GlobalSearch />
       </div>
       <div className="flex items-center space-x-4">
         
@@ -100,7 +80,10 @@ export function Navbar({ onMenuClick }: { onMenuClick?: () => void }) {
                   <h3 className="text-sm font-semibold text-slate-100">Notifications</h3>
                   {unreadCount > 0 && (
                     <button 
-                      onClick={markAllAsRead}
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        markAllAsRead();
+                      }}
                       className="text-xs text-cyan-400 cursor-pointer hover:underline flex items-center"
                     >
                       <CheckCheck className="h-3 w-3 mr-1" /> Mark all read
@@ -117,7 +100,10 @@ export function Navbar({ onMenuClick }: { onMenuClick?: () => void }) {
                     alerts.map((alert) => (
                       <div 
                         key={alert.id} 
-                        onClick={() => !alert.is_read && markAsRead(alert.id)}
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          if (!alert.is_read) markAsRead(alert.id);
+                        }}
                         className={`flex items-start px-4 py-3 transition-colors border-b border-slate-800/50 last:border-0 ${
                           alert.is_read ? 'bg-slate-900/50 opacity-70' : 'bg-slate-800/30 hover:bg-slate-800/50 cursor-pointer'
                         }`}

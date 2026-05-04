@@ -15,7 +15,7 @@ export function useExternalIntelligence() {
   // from firing duplicate in-flight network requests.
   const isFetchingRef = useRef(false);
 
-  const loadData = useCallback(async () => {
+  const loadData = useCallback(async (forceRefresh = false) => {
     // Guard: if a fetch is already in flight, skip this invocation.
     if (isFetchingRef.current) return;
     isFetchingRef.current = true;
@@ -29,7 +29,7 @@ export function useExternalIntelligence() {
           logger.apiError('Open-Meteo', e);
           return null; // Don't fail the whole hook if weather fails
         }),
-        fetchNewsData().catch((e) => {
+        fetchNewsData(forceRefresh).catch((e) => {
           logger.apiError('GNews', e);
           return [] as NewsArticle[];
         })

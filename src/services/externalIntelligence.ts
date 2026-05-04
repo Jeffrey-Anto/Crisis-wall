@@ -48,7 +48,7 @@ function writeNewsCache(articles: NewsArticle[]): void {
   }
 }
 
-function isCacheValid(cache: NewsCache | null): cache is NewsCache {
+function isCacheValid(cache: NewsCache | null): boolean {
   if (!cache) return false;
   return Date.now() - cache.fetchedAt < NEWS_CACHE_TTL_MS;
 }
@@ -95,10 +95,10 @@ export async function fetchWeatherData(): Promise<WeatherData> {
 
 // ─── News ─────────────────────────────────────────────────────────────────────
 
-export async function fetchNewsData(): Promise<NewsArticle[]> {
+export async function fetchNewsData(forceRefresh = false): Promise<NewsArticle[]> {
   // 1. Return valid cached data immediately — no API call needed.
   const cached = readNewsCache();
-  if (isCacheValid(cached)) {
+  if (!forceRefresh && cached && isCacheValid(cached)) {
     return cached.articles;
   }
 

@@ -27,9 +27,9 @@ export function useIncidents() {
     fetchIncidents();
 
     // Subscribe to realtime changes
-    const subscription = supabase
-      .channel('incidents_channel')
-      .on('postgres_changes', { event: '*', schema: 'public', table: 'incidents' }, (payload) => {
+    const channel = supabase.channel(`incidents_channel_${Math.random().toString(36).substring(7)}`);
+    
+    channel.on('postgres_changes', { event: '*', schema: 'public', table: 'incidents' }, (payload) => {
         if (payload.eventType === 'INSERT') {
           setIncidents((prev) => [payload.new as Incident, ...prev]);
         } else if (payload.eventType === 'UPDATE') {
@@ -41,7 +41,7 @@ export function useIncidents() {
       .subscribe();
 
     return () => {
-      supabase.removeChannel(subscription);
+      supabase.removeChannel(channel);
     };
   }, []);
 

@@ -37,7 +37,15 @@ export function ProtectedRoute({ allowedRoles }: ProtectedRouteProps) {
       );
     }
     if (!allowedRoles.includes(profile.role)) {
-      return <Navigate to="/" replace />;
+      return (
+        <div className="min-h-screen bg-slate-950 flex flex-col items-center justify-center p-6 text-center">
+          <div className="bg-slate-900 border border-red-500/30 rounded-2xl p-8 max-w-md w-full shadow-[0_0_50px_rgba(239,68,68,0.1)]">
+            <AlertTriangle className="h-16 w-16 text-red-500 mx-auto mb-6" />
+            <h1 className="text-2xl font-bold text-slate-100 mb-2 uppercase tracking-widest">Access Restricted</h1>
+            <p className="text-slate-400 mb-6">Admin Clearance Required. Your current clearance level ({profile.role}) does not permit access to this sector.</p>
+          </div>
+        </div>
+      );
     }
   }
 

@@ -6,9 +6,10 @@ interface LiveIntelligenceWidgetProps {
   weather: WeatherData | null;
   news: NewsArticle[];
   isLoading: boolean;
+  onRefresh?: () => void;
 }
 
-export function LiveIntelligenceWidget({ weather, news, isLoading }: LiveIntelligenceWidgetProps) {
+export function LiveIntelligenceWidget({ weather, news, isLoading, onRefresh }: LiveIntelligenceWidgetProps) {
   if (isLoading && !weather && news.length === 0) {
     return (
       <div className="bg-slate-900/60 border border-slate-800 rounded-xl p-6 flex items-center justify-center h-32 animate-pulse">
@@ -24,14 +25,22 @@ export function LiveIntelligenceWidget({ weather, news, isLoading }: LiveIntelli
     <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 mb-4">
       {/* ── Weather Module ── */}
       <div className="lg:col-span-1 bg-slate-900/80 border border-slate-800 rounded-xl overflow-hidden relative group">
-        <div className="absolute top-0 right-0 p-3 opacity-20 group-hover:opacity-100 transition-opacity">
-          <RefreshCw className="h-3 w-3 text-slate-400" />
-        </div>
+        <button 
+          onClick={onRefresh}
+          className="absolute top-0 right-0 p-3 opacity-20 hover:opacity-100 transition-opacity cursor-pointer z-10"
+        >
+          <RefreshCw className={`h-3 w-3 text-slate-400 ${isLoading ? 'animate-spin' : ''}`} />
+        </button>
         
         <div className="p-4 border-b border-slate-800/50 flex items-center justify-between">
           <div className="flex items-center gap-2">
             <CloudRain className="h-4 w-4 text-blue-400" />
-            <h3 className="text-xs font-semibold text-slate-300 uppercase tracking-wider">Meteorological Data</h3>
+            <div className="flex flex-col">
+              <h3 className="text-xs font-semibold text-slate-300 uppercase tracking-wider leading-tight">Meteorological Data</h3>
+              <span className="text-[9px] text-slate-500 uppercase tracking-widest mt-0.5 flex items-center">
+                New York, USA
+              </span>
+            </div>
           </div>
           {weather?.isStormWarning && (
             <span className="flex items-center gap-1 text-[10px] font-bold text-red-400 bg-red-500/10 px-2 py-0.5 rounded border border-red-500/20 uppercase tracking-widest animate-pulse">

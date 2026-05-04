@@ -25,9 +25,9 @@ export function useResources() {
   useEffect(() => {
     fetchResources();
 
-    const subscription = supabase
-      .channel('resources_realtime')
-      .on('postgres_changes', { event: '*', schema: 'public', table: 'resources' }, (payload) => {
+    const channel = supabase.channel(`resources_realtime_${Math.random().toString(36).substring(7)}`);
+    
+    channel.on('postgres_changes', { event: '*', schema: 'public', table: 'resources' }, (payload) => {
         if (payload.eventType === 'INSERT') {
           // BUG-14: re-sort after insert so the list order stays consistent with
           // the initial `updated_at DESC` fetch — plain prepend broke the sort.
@@ -47,7 +47,7 @@ export function useResources() {
       .subscribe();
 
     return () => {
-      supabase.removeChannel(subscription);
+      supabase.removeChannel(channel);
     };
   }, [fetchResources]);
 
