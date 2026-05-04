@@ -57,24 +57,32 @@ This platform combines live incident monitoring, intelligent threat analysis, in
 ## Tech Stack
 
 ### Frontend
-- :contentReference[oaicite:1]{index=1}
-- :contentReference[oaicite:2]{index=2}
-- :contentReference[oaicite:3]{index=3}
-- :contentReference[oaicite:4]{index=4}
-- :contentReference[oaicite:5]{index=5}
+- React
+- TypeScript
+- Vite
+- Tailwind CSS
+- Framer Motion
 
 ### Backend & Database
-- :contentReference[oaicite:6]{index=6}
+- Supabase
 - PostgreSQL
-- Supabase Realtime
 - Supabase Authentication
+- Supabase Realtime
 
-### Visualization & Intelligence
-- :contentReference[oaicite:7]{index=7}
-- :contentReference[oaicite:8]{index=8}
+### Data Visualization
+- Recharts
+- React Leaflet
+- Leaflet Maps
+
+### APIs & External Intelligence
 - Open-Meteo API
 - GNews API
 
+### Development Tools
+- Git
+- GitHub
+- Vercel
+- VS Code
 ---
 
 ## Key Highlights
@@ -94,7 +102,7 @@ This platform combines live incident monitoring, intelligent threat analysis, in
 Clone the repository:
 
 ```bash
-git clone YOUR_REPOSITORY_URL
+git clone 
 ```
 
 Move into the project directory:
