@@ -1,73 +1,159 @@
-# React + TypeScript + Vite
+# CrisisWall – Real-Time Crisis Intelligence
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+CrisisWall is an AI-powered real-time crisis intelligence platform designed to monitor, analyze, and respond to emergency situations across the globe.
 
-Currently, two official plugins are available:
+This platform combines live incident monitoring, intelligent threat analysis, interactive mapping, resource coordination, weather intelligence, and news monitoring into a single operational dashboard.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+---
 
-## React Compiler
+## Live Features
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+### Real-Time Dashboard
+- Live incident tracking
+- Severity-based threat indicators
+- Activity feed
+- Interactive analytics charts
+- Smart filtering and search
 
-## Expanding the ESLint configuration
+### Live Crisis Map
+- Real-time global incident visualization
+- Severity-based animated markers
+- Geographic filtering
+- Incident popup details
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+### Alert Management
+- Real-time notifications
+- Mark as read / Mark all as read
+- Unread notification badges
+- Alert history
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+### Resource Management
+- Track emergency resources
+- Deploy units to incidents
+- Resource availability monitoring
+- Live resource updates
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
+### AI Intelligence Engine
+- Threat scoring system
+- Risk prediction
+- Incident trend detection
+- Resource shortage detection
+- Actionable AI insights
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+### External Intelligence
+- Live weather intelligence
+- Disaster news monitoring
+- API fallback handling
+- Cached intelligence feeds
+
+### Security & Access Control
+- Authentication system
+- Role-Based Access Control (RBAC)
+- Admin / Responder / Viewer roles
+- Protected routes
+
+---
+
+## Tech Stack
+
+### Frontend
+- :contentReference[oaicite:1]{index=1}
+- :contentReference[oaicite:2]{index=2}
+- :contentReference[oaicite:3]{index=3}
+- :contentReference[oaicite:4]{index=4}
+- :contentReference[oaicite:5]{index=5}
+
+### Backend & Database
+- :contentReference[oaicite:6]{index=6}
+- PostgreSQL
+- Supabase Realtime
+- Supabase Authentication
+
+### Visualization & Intelligence
+- :contentReference[oaicite:7]{index=7}
+- :contentReference[oaicite:8]{index=8}
+- Open-Meteo API
+- GNews API
+
+---
+
+## Key Highlights
+
+- Real-time data synchronization
+- Global crisis visualization
+- AI-based threat analysis
+- Secure authentication & RBAC
+- Interactive dashboards
+- Mobile responsive UI
+- Production-ready architecture
+
+---
+
+## Installation
+
+Clone the repository:
+
+```bash
+git clone YOUR_REPOSITORY_URL
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+Move into the project directory:
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
-
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+```bash
+cd crisis-intelligent-wall
 ```
+
+Install dependencies:
+
+```bash
+npm install
+```
+
+Run development server:
+
+```bash
+npm run dev
+```
+
+Build for production:
+
+```bash
+npm run build
+```
+
+---
+
+## Environment Variables
+
+Create a `.env.local` file:
+
+```env
+VITE_SUPABASE_URL=your_supabase_url
+VITE_SUPABASE_ANON_KEY=your_supabase_anon_key
+VITE_GNEWS_API_KEY=your_gnews_api_key
+```
+
+---
+
+## Future Improvements
+
+- Push notifications
+- Predictive disaster modeling
+- Satellite intelligence integration
+- Multi-language support
+- Emergency communication channels
+
+---
+
+## Author
+
+**Jeffrey Anto Thomas**
+
+Computer Science Engineering Student  
+Passionate about Frontend Development, AI Applications, and Real-Time Systems
+
+---
+
+## License
+
+© 2026 CrisisWall. All Rights Reserved.
