@@ -41,12 +41,18 @@ export function DashboardLayout() {
 
       <div className="flex flex-col flex-1 overflow-hidden">
         <Navbar onMenuClick={() => setIsMobileMenuOpen(true)} />
-        <main className="flex-1 overflow-y-auto bg-slate-950 p-6 relative">
+        <main className="flex-1 flex flex-col overflow-y-auto bg-slate-950 p-6 relative">
           <AnimatePresence mode="wait">
-            <motion.div key={location.pathname} className="min-h-full">
+            <motion.div key={location.pathname} className="flex-1">
               <Outlet />
             </motion.div>
           </AnimatePresence>
+
+          {/* Global Footer */}
+          <footer className="mt-8 pt-6 border-t border-slate-800/50 text-center opacity-80">
+            <p className="text-xs text-slate-500 font-medium">© 2026 CrisisWall. All rights reserved.</p>
+            <p className="text-[10px] text-slate-600 mt-1 uppercase tracking-widest font-semibold">Powered by Real-Time Intelligence</p>
+          </footer>
         </main>
       </div>
     </div>

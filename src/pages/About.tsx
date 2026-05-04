@@ -29,7 +29,7 @@ export function About() {
           </motion.div>
           <h1 className="text-4xl font-black text-white tracking-tight mb-4">Crisis<span className="text-cyan-400">Wall</span></h1>
           <p className="text-lg text-slate-400 max-w-2xl mx-auto leading-relaxed">
-            CrisisWall is an advanced, AI-augmented operations command center built to process, analyze, and visualize emergency telemetry in real-time. Designed as a portfolio piece demonstrating production-grade React architecture.
+            CrisisWall is an advanced real-time crisis intelligence system built to process, analyze, and visualize emergency telemetry. Designed as a portfolio piece demonstrating production-grade React architecture.
           </p>
         </div>
 

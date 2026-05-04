@@ -14,6 +14,7 @@ import {
   Database
 } from "lucide-react";
 import { cn } from "../utils/cn";
+import { BrandLogo } from "./BrandLogo";
 import { loadDemoData } from "../utils/demoData";
 import { useState } from "react";
 import toast from "react-hot-toast";
@@ -48,15 +49,13 @@ export function Sidebar({ onClose }: { onClose?: () => void }) {
   return (
     <div className="flex h-full w-64 flex-col bg-slate-900 border-r border-slate-800">
       <div className="flex flex-col h-20 px-6 border-b border-slate-800 justify-center relative">
-        <div className="flex items-center gap-2">
-          <div className="h-8 w-8 bg-gradient-to-br from-cyan-500 to-blue-600 rounded flex items-center justify-center">
-            <ShieldAlert className="h-5 w-5 text-white" />
-          </div>
+        <div className="flex items-center gap-3">
+          <BrandLogo className="h-8 w-8 rounded-lg" iconClassName="h-4 w-4" />
           <div>
             <h1 className="text-xl font-black tracking-tight text-white leading-none">
               Crisis<span className="text-cyan-400">Wall</span>
             </h1>
-            <p className="text-[9px] text-cyan-500/80 font-bold uppercase tracking-widest mt-0.5">AI-Powered OS</p>
+            <p className="text-[8px] text-cyan-500/80 font-bold uppercase tracking-widest mt-1">Real-Time Crisis Intelligence</p>
           </div>
         </div>
         {onClose && (

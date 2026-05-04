@@ -18,7 +18,7 @@ export function Settings() {
   }, [emailDigest]);
 
   return (
-    <PageWrapper title="Settings" description="Personalize your command center experience.">
+    <PageWrapper title="Settings" description="Personalize your crisis intelligence experience.">
       <div className="max-w-4xl mx-auto space-y-6">
         
         {/* Profile Section */}
@@ -91,7 +91,7 @@ export function Settings() {
              <div className="flex items-center justify-between">
               <div>
                 <p className="text-slate-200 font-medium mb-1">Theme</p>
-                <p className="text-sm text-slate-500">The command center is permanently locked to Dark Mode for optimal contrast in low-light environments.</p>
+                <p className="text-sm text-slate-500">The crisis dashboard is permanently locked to Dark Mode for optimal contrast in low-light environments.</p>
               </div>
               <Badge variant="default" className="bg-slate-800 text-slate-400 border-slate-700">Dark Mode (Locked)</Badge>
             </div>

@@ -225,7 +225,7 @@ export function ResourceManagement() {
       {/* Header Actions */}
       <div className="flex justify-between items-center mb-6">
         <div>
-          <h2 className="text-2xl font-bold text-white tracking-tight">Resource Command Center</h2>
+          <h2 className="text-2xl font-bold text-white tracking-tight">Resource Intelligence</h2>
           <p className="text-sm text-slate-400">Real-time deployment and management of all emergency units.</p>
         </div>
         <motion.button

@@ -1,9 +1,10 @@
 import { useState } from "react";
 import { Link, useNavigate, Navigate } from "react-router-dom";
 import { supabase } from "../services/supabase";
-import { Lock, Mail, UserPlus } from "lucide-react";
+import { Lock, Mail } from "lucide-react";
 import { Button } from "../components/Button";
 import { useAuth } from "../contexts/AuthContext";
+import { BrandLogo } from "../components/BrandLogo";
 
 export function Signup() {
   const { user, isLoading } = useAuth();
@@ -40,16 +41,14 @@ export function Signup() {
   return (
     <div className="min-h-screen bg-slate-950 flex flex-col justify-center py-12 sm:px-6 lg:px-8 bg-[url('https://www.transparenttextures.com/patterns/cubes.png')]">
       <div className="sm:mx-auto sm:w-full sm:max-w-md">
-        <div className="flex justify-center">
-          <div className="h-12 w-12 rounded-xl bg-cyan-500/20 flex items-center justify-center border border-cyan-500/30 shadow-[0_0_15px_rgba(34,211,238,0.2)]">
-            <UserPlus className="h-6 w-6 text-cyan-400" />
-          </div>
+        <div className="flex justify-center mb-8">
+          <BrandLogo className="h-12 w-12 rounded-xl" iconClassName="h-6 w-6" />
         </div>
         <h2 className="mt-6 text-center text-3xl font-extrabold text-slate-100 tracking-tight">
           Request Clearance
         </h2>
         <p className="mt-2 text-center text-sm text-slate-400">
-          Create your Command Center account
+          Create your Crisis Intelligence account
         </p>
       </div>
 
